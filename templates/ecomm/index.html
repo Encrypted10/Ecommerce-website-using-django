@@ -1,0 +1,240 @@
+{% include 'navbar.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+  /* Reset and Base Styles */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    color: #222;
+    line-height: 1.5;
+  }
+
+  /* Slider Section */
+  .slider-container {
+    position: relative;
+    width: 100%;
+    height: 60vh;
+    overflow: hidden;
+  }
+
+  .slider-container input {
+    display: none;
+  }
+
+  .slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+  }
+
+  #slide-dot-1:checked~.slide-1,
+  #slide-dot-2:checked~.slide-2,
+  #slide-dot-3:checked~.slide-3,
+  #slide-dot-4:checked~.slide-4 {
+    opacity: 1;
+    z-index: 1;
+  }
+
+  /* Slider Navigation Dots */
+  .menu {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+  }
+
+  .menu label {
+    width: 14px;
+    height: 14px;
+    background-color: white;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+    border: 2px solid #003049;
+  }
+
+  .menu label:hover {
+    background-color: #003049;
+  }
+
+  /* Heading */
+  .section-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin: 40px 0 20px;
+    color: #003049;
+  }
+
+  /* Products Grid */
+  .products-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    padding: 0 40px 60px;
+    max-width: 1200px;
+    margin: auto;
+  }
+
+  /* Product Card */
+  .product-card {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transition: 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Product Image */
+  .product-card img {
+    max-width: 100%;
+    height: 230px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  /* Product Info */
+  .product-info {
+    text-align: center;
+    margin-top: 15px;
+  }
+
+  .product-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #003049;
+    margin-bottom: 6px;
+  }
+
+  .product-description {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+    height: 38px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .product-price {
+    font-size: 18px;
+    color: #e63946;
+    font-weight: bold;
+    margin-bottom: 12px;
+  }
+
+  /* Add to Cart Button */
+  .add-to-cart-btn {
+    display: inline-block;
+    background-color: #003049;
+    color: white;
+    padding: 10px 18px;
+    font-size: 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+
+  .add-to-cart-btn:hover {
+    background-color: #0056b3;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .slider-container {
+      height: 40vh;
+    }
+
+    .section-title {
+      font-size: 22px;
+    }
+
+    .products-container {
+      padding: 0 20px 40px;
+    }
+
+    .product-card img {
+      height: 200px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .slider-container {
+      height: 35vh;
+    }
+
+    .section-title {
+      font-size: 20px;
+    }
+  }
+</style>
+
+<!-- Slider Section -->
+<div class="slider-container">
+  <input id="slide-dot-1" type="radio" name="slides" checked>
+  <input id="slide-dot-2" type="radio" name="slides">
+  <input id="slide-dot-3" type="radio" name="slides">
+  <input id="slide-dot-4" type="radio" name="slides">
+
+  <div class="slide slide-1" style="background-image: url('{% static 'images/banner1.jpg' %}')"></div>
+  <div class="slide slide-2" style="background-image: url('{% static 'images/banner4.jpg' %}')"></div>
+  <div class="slide slide-3" style="background-image: url('{% static 'images/banner2.jpg' %}')"></div>
+  <div class="slide slide-4" style="background-image: url('{% static 'images/banner3.avif' %}')"></div>
+
+  <div class="menu">
+    <label for="slide-dot-1"></label>
+    <label for="slide-dot-2"></label>
+    <label for="slide-dot-3"></label>
+    <label for="slide-dot-4"></label>
+  </div>
+</div>
+
+<!-- Product Section -->
+{% if products %}
+<h3 class="section-title">{{ word }}</h3>
+<div class="products-container">
+  {% for p in products %}
+  <div class="product-card">
+    <img src="{{ p.product_image.url }}" alt="{{ p.name }}">
+    <div class="product-info">
+      <div class="product-name">{{ p.name }}</div>
+      <div class="product-description">{{ p.description }}</div>
+      <div class="product-price">₹ {{ p.price }}</div>
+      <a href="#" class="add-to-cart-btn">
+        <i class="fa fa-shopping-cart"></i> Add to Cart
+      </a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<h3 class="section-title">No Products Found</h3>
+{% endif %}
+
+<!--
+Developed By : KHAJA MUBASHIR ARSALAN
+-->
+
+{% endblock content %}

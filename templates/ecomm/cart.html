@@ -1,0 +1,184 @@
+{% if request.user.is_authenticated %}
+{% include "customer_navbar.html" %}
+{% else %}
+{% include "navbar.html" %}
+{% endif %}
+{% load custom_filters %}
+{% load static %}
+{% block content %}
+
+<head>
+
+
+  <style>
+    /* Body Styling */
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Card Styling */
+    .cart-card {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-top: 30px;
+    }
+
+    /* Table Styling */
+    .cart-table th {
+      background-color: #003049;
+      color: white;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .cart-table td {
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    /* Image Styling */
+    .product-img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    /* Empty Cart */
+    .empty-cart {
+      text-align: center;
+      padding: 40px 20px;
+      color: #6c757d;
+    }
+
+    /* Total & Purchase Buttons */
+    .cart-footer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .btn-purchase {
+      background-color: #28a745;
+      color: white;
+      font-weight: bold;
+      padding: 12px 25px;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-purchase:hover {
+      background-color: #218838;
+    }
+
+    .btn-total {
+      background-color: #dc3545;
+      color: white;
+      font-weight: bold;
+      padding: 12px 25px;
+      border-radius: 30px;
+    }
+
+    /* Responsive Table */
+    @media (max-width: 768px) {
+      .cart-table thead {
+        display: none;
+      }
+
+      .cart-table,
+      .cart-table tbody,
+      .cart-table tr,
+      .cart-table td {
+        display: block;
+        width: 100%;
+      }
+
+      .cart-table tr {
+        margin-bottom: 20px;
+        background: #fff;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        padding: 10px;
+      }
+
+      .cart-table td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+      }
+
+      .cart-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 15px;
+        width: 50%;
+        text-align: left;
+        font-weight: bold;
+        color: #495057;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="cart-card">
+      <h3 class="text-center text-primary fw-bold mb-4">🛒 My Cart</h3>
+
+      {% if products %}
+      <div class="table-responsive">
+        <table class="table cart-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Image</th>
+              <th>Price</th>
+              <th>Description</th>
+              <th>Quantity</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in products %}
+            <tr>
+              <td data-label="Name">{{ p.name }}</td>
+              <td data-label="Image">
+                {% if p.product_image %}
+                <img src="{{ p.product_image.url }}" class="product-img" alt="Product Image" />
+                {% else %}
+                No Image
+                {% endif %}
+              </td>
+              <td data-label="Price">₹ {{ p.price }}</td>
+              <td data-label="Description">{{ p.description }}</td>
+              <td data-label="Quantity">{{ product_quantity|get_item:p.id }}</td>
+              <td data-label="Action">
+                <a class="btn btn-danger btn-sm" href="{% url 'remove-from-cart' p.id %}">
+                  <i class="bi bi-trash"></i> Remove
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="cart-footer">
+        <button class="btn btn-total">Total ₹{{ total }}</button>
+        <a href="/customer-address" class="btn btn-purchase">Proceed to Purchase</a>
+      </div>
+      {% else %}
+      <div class="empty-cart">
+        <h5>Your cart is empty 😔</h5>
+        <a href="/" class="btn btn-primary mt-3">Continue Shopping</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</body>
+{% endblock content %}

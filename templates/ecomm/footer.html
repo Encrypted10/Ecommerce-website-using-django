@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Responsive Footer</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <style>
+    /* Footer styles */
+    footer {
+      background-color: #000;
+      color: #fff;
+      padding: 20px 10px;
+      text-align: center;
+      font-family: Arial, sans-serif;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .fa {
+      padding: 12px;
+      font-size: 24px;
+      width: 48px;
+      height: 48px;
+      line-height: 24px;
+      border-radius: 50%;
+      text-align: center;
+      color: #fff;
+      transition: background-color 0.3s ease, opacity 0.3s ease;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .fa-facebook {
+      background: #3B5998;
+    }
+
+    .fa-whatsapp {
+      background: #25d366;
+    }
+
+    .fa-twitter {
+      background: #55ACEE;
+    }
+
+    .fa-instagram {
+      background: #e23a77;
+    }
+
+    .fa:hover,
+    .fa:focus {
+      opacity: 0.8;
+      text-decoration: none;
+    }
+
+    .footer-text {
+      font-size: 14px;
+      max-width: 400px;
+      margin: auto;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 480px) {
+      .fa {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        padding: 10px;
+      }
+
+      .footer-text {
+        font-size: 13px;
+        max-width: 300px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <footer>
+    <div class="social-icons">
+      <a href="#" class="fa fa-facebook" aria-label="Facebook"></a>
+      <a href="#" class="fa fa-whatsapp" aria-label="WhatsApp"></a>
+      <a href="#" class="fa fa-instagram" aria-label="Instagram"></a>
+      <a href="#" class="fa fa-twitter" aria-label="Twitter"></a>
+    </div>
+    <div class="footer-text" role="contentinfo">
+      <p>ecommerce Site in Python using Django Framework<br />
+        &copy; 2023 KHAJA MUBASHIR ARSALAN</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

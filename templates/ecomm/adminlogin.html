@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+{% load widget_tweaks %}
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Admin Login - Simple E-commerce</title>
+    <style>
+        /* ===== Reset & Base Styles ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #efeff2;
+            color: black;
+        }
+
+        /* ===== Container ===== */
+        .container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        /* ===== Card Styling ===== */
+        .card {
+            background: #ffffff15;
+            backdrop-filter: blur(10px);
+            padding: 40px 35px;
+            border-radius: 18px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* ===== Heading ===== */
+        .card h1 {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            color: #fff;
+        }
+
+        /* ===== Input Fields ===== */
+        .card input[type="text"],
+        .card input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 12px 0;
+            border-radius: 8px;
+            border: 1px solid #3498db;
+            background: #ffffff10;
+            color: white;
+            font-size: 15px;
+            outline: none;
+            transition: 0.3s ease;
+            text-align: center;
+        }
+
+        .card input[type="text"]:focus,
+        .card input[type="password"]:focus {
+            border-color: #2ecc71;
+            box-shadow: 0 0 8px #2ecc71;
+        }
+
+        /* ===== Submit Button ===== */
+        .card input[type="submit"] {
+            width: 100%;
+            padding: 14px;
+            background: #2ecc71;
+            border: none;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .card input[type="submit"]:hover {
+            background: #27ae60;
+        }
+
+        /* ===== Footer Spacing ===== */
+        footer {
+            margin-top: auto;
+        }
+
+        /* ===== Responsive Design ===== */
+        @media (max-width: 768px) {
+            .card {
+                padding: 30px 25px;
+                max-width: 90%;
+            }
+
+            .card h1 {
+                font-size: 24px;
+            }
+
+            .card input[type="submit"] {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 20px;
+                border-radius: 15px;
+            }
+
+            .card h1 {
+                font-size: 20px;
+            }
+
+            .card input[type="submit"] {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {% include "navbar.html" %}
+
+    <div class="container">
+        <div class="card">
+            <form method="post">
+                {% csrf_token %}
+                <h1>Admin Login</h1>
+
+                {% render_field form.username placeholder="Username" autocomplete="off" %}
+                {% render_field form.password placeholder="Password" %}
+
+                <input type="submit" value="Login">
+            </form>
+        </div>
+    </div>
+
+    {% include "footer.html" %}
+</body>
+
+</html>

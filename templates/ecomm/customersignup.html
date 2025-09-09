@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+{% load widget_tweaks %}
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Customer Sign Up - Simple E-commerce</title>
+    <style>
+        /* ========== Base Reset ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #efeff2;
+            color: #fff;
+        }
+
+        /* ========== Container ========== */
+        .container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 20px;
+        }
+
+        /* ========== Card ========== */
+        .card {
+            background: #ffffff10;
+            backdrop-filter: blur(10px);
+            padding: 40px 30px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* ========== Title ========== */
+        .card h1 {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        /* ========== Input Fields ========== */
+        .card input[type="text"],
+        .card input[type="password"],
+        .card input[type="file"],
+        .card input[type="number"],
+        .card input[type="tel"],
+        .card textarea {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 12px 0;
+            border-radius: 8px;
+            border: 1px solid #3498db;
+            background: #ffffff15;
+            color: white;
+            font-size: 15px;
+            outline: none;
+            transition: border 0.3s ease;
+        }
+
+        .card input:focus,
+        .card textarea:focus {
+            border-color: #2ecc71;
+        }
+
+        /* ========== Submit Button ========== */
+        .card input[type="submit"] {
+            width: 100%;
+            padding: 14px;
+            background: #2ecc71;
+            border: none;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .card input[type="submit"]:hover {
+            background: #27ae60;
+        }
+
+        /* ========== Social Links ========== */
+        ul.social-network {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0 0;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        ul.social-network li a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: #ffffff20;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        ul.social-network li a:hover {
+            background: #2ecc71;
+            transform: scale(1.1);
+        }
+
+        /* ========== Responsive Design ========== */
+        @media (max-width: 768px) {
+            .card {
+                padding: 30px 20px;
+                max-width: 90%;
+            }
+
+            .card h1 {
+                font-size: 24px;
+            }
+
+            .card input[type="submit"] {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 20px;
+                border-radius: 15px;
+            }
+
+            .card h1 {
+                font-size: 20px;
+            }
+
+            .card input[type="submit"] {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {% include "navbar.html" %}
+
+    <div class="container">
+        <div class="card">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <h1>Customer Sign Up</h1>
+
+                {% render_field userForm.first_name placeholder="First Name" %}
+                {% render_field userForm.last_name placeholder="Last Name" %}
+                {% render_field userForm.username placeholder="Username" %}
+                {% render_field userForm.password placeholder="Password" %}
+                {% render_field customerForm.address placeholder="Address" %}
+                {% render_field customerForm.mobile placeholder="Contact" %}
+                {% render_field customerForm.profile_pic placeholder="Profile Picture" %}
+
+                <input type="submit" value="Create Account">
+            </form>
+        </div>
+    </div>
+
+    {% include "footer.html" %}
+</body>
+
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Quick Cross - Feedback</title>
+
+  <style>
+    /* Reset & Global Styling */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+    background-color: #efeff2;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Feedback Container */
+    .feedback-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .feedback-card {
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    /* Title */
+    .feedback-card h2 {
+      color: #2193b0;
+      font-size: 26px;
+      margin-bottom: 15px;
+    }
+
+    .feedback-card p {
+      color: #555;
+      font-size: 15px;
+      margin-bottom: 25px;
+    }
+
+    /* Form Fields */
+    .feedback-card form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      text-align: left;
+    }
+
+    .feedback-card form p {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .feedback-card input,
+    .feedback-card textarea,
+    .feedback-card select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+      outline: none;
+      transition: 0.3s ease-in-out;
+    }
+
+    .feedback-card input:focus,
+    .feedback-card textarea:focus,
+    .feedback-card select:focus {
+      border-color: #2193b0;
+      box-shadow: 0 0 8px rgba(33, 147, 176, 0.4);
+    }
+
+    /* Submit Button */
+    .feedback-card button {
+      background: #2193b0;
+      color: #fff;
+      padding: 14px 20px;
+      border: none;
+      font-size: 17px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s ease-in-out;
+      box-shadow: 0 5px 15px rgba(33, 147, 176, 0.4);
+    }
+
+    .feedback-card button:hover {
+      background: #176c87;
+      transform: translateY(-3px);
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      .feedback-card {
+        padding: 25px 20px;
+      }
+
+      .feedback-card h2 {
+        font-size: 22px;
+      }
+
+      .feedback-card button {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  {% if request.user.is_authenticated %}
+  {% include "customer_navbar.html" %}
+  {% else %}
+  {% include "navbar.html" %}
+  {% endif %}
+
+  <!-- Feedback Form Section -->
+  <div class="feedback-container">
+    <div class="feedback-card">
+      <h2>We Value Your Feedback 💬</h2>
+      <p>Please share your valuable feedback to help us improve.</p>
+
+      <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Send Feedback</button>
+      </form>
+    </div>
+  </div>
+
+  {% include "footer.html" %}
+</body>
+
+</html>

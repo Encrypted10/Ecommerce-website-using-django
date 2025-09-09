@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+{% load widget_tweaks %}
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Customer Login - Simple E-commerce</title>
+
+    <style>
+        /* Reset and base styles */
+        * {
+            box-sizing: border-box;
+        }
+
+    body, html {
+    margin: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #efeff2;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+
+        /* Center container */
+        .login-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Card container */
+        .login-card {
+            background: #ffffffdd;
+            padding: 40px 30px;
+            max-width: 400px;
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .login-card:hover {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Heading */
+        .login-card h1 {
+            margin-bottom: 30px;
+            font-weight: 700;
+            color: #4b2980;
+            font-size: 28px;
+        }
+
+        /* Inputs */
+        .login-card input[type="text"],
+        .login-card input[type="password"] {
+            width: 100%;
+            padding: 14px 18px;
+            margin: 12px 0;
+            border: 2px solid #667eea;
+            border-radius: 30px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            color: #333;
+            background-color: #f8f8ff;
+        }
+
+        .login-card input[type="text"]::placeholder,
+        .login-card input[type="password"]::placeholder {
+            color: #aaa;
+        }
+
+        .login-card input[type="text"]:focus,
+        .login-card input[type="password"]:focus {
+            border-color: #764ba2;
+            box-shadow: 0 0 8px #764ba2aa;
+            background-color: #fff;
+        }
+
+        /* Submit button */
+        .login-card input[type="submit"] {
+            width: 100%;
+            padding: 16px;
+            margin-top: 25px;
+            background: linear-gradient(45deg, #764ba2, #667eea);
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background 0.4s ease;
+            box-shadow: 0 4px 12px #667eeaaa;
+        }
+
+        .login-card input[type="submit"]:hover,
+        .login-card input[type="submit"]:focus {
+            background: linear-gradient(45deg, #5d3b91, #5262bd);
+            box-shadow: 0 6px 16px #5262bdcc;
+            outline: none;
+        }
+
+        /* Responsive text */
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 30px 20px;
+                border-radius: 12px;
+            }
+
+            .login-card h1 {
+                font-size: 24px;
+            }
+
+            .login-card input[type="submit"] {
+                font-size: 16px;
+                padding: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    {% include "navbar.html" %}
+
+    <div class="login-wrapper">
+        <div class="login-card">
+            <form method="post" novalidate>
+                {% csrf_token %}
+                <h1>Customer Login</h1>
+
+                {% render_field form.username placeholder="Username" autocomplete="off" %}
+                {% render_field form.password placeholder="Password" %}
+
+                <input type="submit" value="Login" />
+            </form>
+        </div>
+    </div>
+
+    {% include "footer.html" %}
+
+</body>
+
+</html>
