@@ -47,5 +47,4 @@ urlpatterns = [
     path('payment-success', views.payment_success_view,name='payment-success'),
     path('download-invoice/<int:order_id>/', views.download_invoice, name='download_invoice'),
 
-]
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

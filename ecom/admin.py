@@ -24,3 +24,5 @@ class AboutUsAdmin(admin.ModelAdmin):
     list_display = ('title', 'founder_name', 'founded_year', 'updated_at')
     search_fields = ('title', 'founder_name')
     list_filter = ('founded_year',)
+
+

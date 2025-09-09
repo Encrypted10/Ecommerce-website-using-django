@@ -1291,7 +1291,9 @@ function setDocument( node ) {
 			rbuggyQSA.push( "~=" );
 		}
 
-		
+		// Support: iOS 8 only
+		// https://bugs.webkit.org/show_bug.cgi?id=136851
+		// In-page `selector#id sibling-combinator selector` fails
 		if ( !el.querySelectorAll( "a#" + expando + "+*" ).length ) {
 			rbuggyQSA.push( ".#.+[+~]" );
 		}
@@ -5639,11 +5641,23 @@ jQuery.each( { focus: "focusin", blur: "focusout" }, function( type, delegateTyp
 		delegateType: delegateType
 	};
 
-
+	// Support: Firefox <=44
+	// Firefox doesn't have focus(in | out) events
+	// Related ticket - https://bugzilla.mozilla.org/show_bug.cgi?id=687787
+	//
+	// Support: Chrome <=48 - 49, Safari <=9.0 - 9.1
+	// focus(in | out) events fire after focus & blur events,
+	// which is spec violation - http://www.w3.org/TR/DOM-Level-3-Events/#events-focusevent-event-order
+	// Related ticket - https://bugs.chromium.org/p/chromium/issues/detail?id=449857
+	//
+	// Support: IE 9 - 11+
+	// To preserve relative focusin/focus & focusout/blur event order guaranteed on the 3.x branch,
+	// attach a single handler for both events in IE.
 	jQuery.event.special[ delegateType ] = {
 		setup: function() {
 
-			
+			// Handle: regular nodes (via `this.ownerDocument`), window
+			// (via `this.document`) & document (via `this`).
 			var doc = this.ownerDocument || this.document || this,
 				dataHolder = document.documentMode ? this : doc,
 				attaches = dataPriv.get( dataHolder, delegateType );
@@ -10107,6 +10121,12 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 
 
 
+
+// Support: Safari 8 only
+// In Safari 8 documents created via document.implementation.createHTMLDocument
+// collapse sibling forms: the second one becomes a child of the first one.
+// Because of that, this security measure has to be disabled in Safari 8.
+// https://bugs.webkit.org/show_bug.cgi?id=137337
 support.createHTMLDocument = ( function() {
 	var body = document.implementation.createHTMLDocument( "" ).body;
 	body.innerHTML = "<form></form><form></form>";
@@ -10376,7 +10396,16 @@ jQuery.fn.extend( {
 		};
 	},
 
-	
+	// This method will return documentElement in the following cases:
+	// 1) For the element inside the iframe without offsetParent, this method will return
+	//    documentElement of the parent window
+	// 2) For the hidden or detached element
+	// 3) For body or html element, i.e. in case of the html node - it will return itself
+	//
+	// but those exceptions were never presented as a real life use-cases
+	// and might be considered as more preferable results.
+	//
+	// This logic, however, is not guaranteed and can change at any point in the future
 	offsetParent: function() {
 		return this.map( function() {
 			var offsetParent = this.offsetParent;
@@ -10422,7 +10451,12 @@ jQuery.each( { scrollLeft: "pageXOffset", scrollTop: "pageYOffset" }, function( 
 	};
 } );
 
-
+// Support: Safari <=7 - 9.1, Chrome <=37 - 49
+// Add the top/left cssHooks using jQuery.fn.position
+// Webkit bug: https://bugs.webkit.org/show_bug.cgi?id=29084
+// Blink bug: https://bugs.chromium.org/p/chromium/issues/detail?id=589347
+// getComputedStyle returns percent when specified for top/left/bottom/right;
+// rather than make the css module depend on the offset module, just check for it here
 jQuery.each( [ "top", "left" ], function( _i, prop ) {
 	jQuery.cssHooks[ prop ] = addGetHookIf( support.pixelPosition,
 		function( elem, computed ) {
