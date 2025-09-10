@@ -25,7 +25,7 @@ class ProductForm(forms.ModelForm):
 class AddressForm(forms.Form):
     Email = forms.EmailField()
     Mobile= forms.IntegerField()
-    Address = forms.CharField(max_length=500)
+    Address= forms.CharField(max_length=500)
 
 class FeedbackForm(forms.ModelForm):
     class Meta:

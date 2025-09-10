@@ -1,121 +1,166 @@
-{% extends 'customer_base.html' %}
+{% if request.user.is_authenticated %}
+{% include "customer_navbar.html" %}
+{% else %}
+{% include "navbar.html" %}
+{% endif %}
+
 {% load static %}
 {% load widget_tweaks %}
 {% block content %}
 
-  <style type="text/css">
-.form-style-1 {
-	margin:10px auto;
-	max-width: 400px;
-	padding: 20px 12px 10px 20px;
-	font: 13px "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-}
-.form-style-1 li {
-	padding: 0;
-	display: block;
-	list-style: none;
-	margin: 10px 0 0 0;
-}
-.form-style-1 label{
-	margin:0 0 3px 0;
-	padding:0px;
-	display:block;
-	font-weight: bold;
-}
-.form-style-1 input[type=text],
-.form-style-1 input[type=date],
-.form-style-1 input[type=datetime],
-.form-style-1 input[type=number],
-.form-style-1 input[type=search],
-.form-style-1 input[type=time],
-.form-style-1 input[type=url],
-.form-style-1 input[type=email],
-textarea,
-select{
-	box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	border:1px solid #BEBEBE;
-	padding: 7px;
-	margin:0px;
-	-webkit-transition: all 0.30s ease-in-out;
-	-moz-transition: all 0.30s ease-in-out;
-	-ms-transition: all 0.30s ease-in-out;
-	-o-transition: all 0.30s ease-in-out;
-	outline: none;
-}
-.form-style-1 input[type=text]:focus,
-.form-style-1 input[type=date]:focus,
-.form-style-1 input[type=datetime]:focus,
-.form-style-1 input[type=number]:focus,
-.form-style-1 input[type=search]:focus,
-.form-style-1 input[type=time]:focus,
-.form-style-1 input[type=url]:focus,
-.form-style-1 input[type=email]:focus,
-.form-style-1 textarea:focus,
-.form-style-1 select:focus{
-	-moz-box-shadow: 0 0 8px #88D5E9;
-	-webkit-box-shadow: 0 0 8px #88D5E9;
-	box-shadow: 0 0 8px #88D5E9;
-	border: 1px solid #88D5E9;
-}
-.form-style-1 .field-divided{
-	width: 49%;
-}
+<style>
+	/* ---------- Overall Page Styling ---------- */
+	body {
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		background-color: #f5f7fa;
+		margin: 0;
+		padding: 0;
+	}
 
-.form-style-1 .field-long{
-	width: 100%;
-}
-.form-style-1 .field-select{
-	width: 100%;
-}
-.form-style-1 .field-textarea{
-	height: 100px;
-}
-.form-style-1 input[type=submit], .form-style-1 input[type=button]{
-	background: #4B99AD;
-	padding: 8px 15px 8px 15px;
-	border: none;
-	color: #fff;
-}
-.form-style-1 input[type=submit]:hover, .form-style-1 input[type=button]:hover{
-	background: #4691A4;
-	box-shadow:none;
-	-moz-box-shadow:none;
-	-webkit-box-shadow:none;
-}
-.form-style-1 .required{
-	color:red;
-}
+	/* ---------- Centered Container ---------- */
+	.form-container {
+		max-width: 480px;
+		margin: 50px auto;
+		background: #ffffff;
+		padding: 30px 25px;
+		border-radius: 15px;
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+		transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+	}
+
+	.form-container:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+	}
+
+	/* ---------- Title Styling ---------- */
+	.form-title {
+		font-size: 24px;
+		font-weight: bold;
+		text-align: center;
+		margin-bottom: 15px;
+		color: #333;
+		letter-spacing: 0.5px;
+	}
+
+	/* ---------- Form Styling ---------- */
+	.form-style-1 {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	/* Labels */
+	.form-style-1 label {
+		font-weight: 600;
+		display: block;
+		margin-bottom: 6px;
+		color: #444;
+	}
+
+	/* Inputs, Textareas, Select */
+	.form-style-1 input[type=text],
+	.form-style-1 input[type=date],
+	.form-style-1 input[type=datetime],
+	.form-style-1 input[type=number],
+	.form-style-1 input[type=search],
+	.form-style-1 input[type=time],
+	.form-style-1 input[type=url],
+	.form-style-1 input[type=email],
+	.form-style-1 textarea,
+	.form-style-1 select {
+		width: 100%;
+		padding: 10px 12px;
+		border: 1px solid #d1d5db;
+		border-radius: 8px;
+		font-size: 15px;
+		background-color: #f9fafb;
+		transition: all 0.3s ease-in-out;
+	}
+
+	/* Focused Inputs */
+	.form-style-1 input:focus,
+	.form-style-1 textarea:focus,
+	.form-style-1 select:focus {
+		border-color: #2563eb;
+		background-color: #ffffff;
+		box-shadow: 0 0 6px rgba(37, 99, 235, 0.3);
+		outline: none;
+	}
+
+	/* Textarea */
+	.form-style-1 .field-textarea {
+		height: 110px;
+		resize: vertical;
+	}
+
+	/* Required Fields */
+	.form-style-1 .required {
+		color: #e11d48;
+	}
+
+	/* ---------- Submit Button ---------- */
+	.form-style-1 input[type=submit] {
+		width: 100%;
+		padding: 12px;
+		margin-top: 15px;
+		background: #2563eb;
+		color: white;
+		border: none;
+		border-radius: 8px;
+		font-size: 16px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.3s ease-in-out;
+	}
+
+	.form-style-1 input[type=submit]:hover {
+		background: #1e40af;
+		box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+	}
+
+	/* ---------- Empty Cart Message ---------- */
+	.empty-cart {
+		text-align: center;
+		margin-top: 60px;
+		color: #e11d48;
+		font-size: 20px;
+		font-weight: bold;
+	}
 </style>
-{%if product_in_cart%}
-<form method="post">
-  {% csrf_token %}
-<ul class="form-style-1">
-    <li>
-        <label>Email <span class="required">*</span></label>
-        {% render_field addressForm.Email class="field-long" placeholder="Email" %}
 
-    </li>
-    <li>
-        <label>Mobile <span class="required">*</span></label>
-        {% render_field addressForm.Mobile class="field-long" placeholder="Mobile" %}
-    </li>
+{% if product_in_cart %}
+<div class="form-container">
+	<h2 class="form-title">Shipping Details</h2>
+	<form method="post">
+		{% csrf_token %}
+		<ul class="form-style-1">
+			<li>
+				<label>Email <span class="required">*</span></label>
+				{% render_field addressForm.Email class="field-long" placeholder="Enter your email" %}
+			</li>
 
-    <li>
-        <label>Shipment Address <span class="required">*</span></label>
-        {% render_field addressForm.Address id="field5" class="field-long field-textarea" placeholder="Building Number,city, pin" %}
+			<li>
+				<label>Mobile <span class="required">*</span></label>
+				{% render_field addressForm.Mobile class="field-long" placeholder="Enter your mobile number" %}
+			</li>
 
-    </li>
-    <li>
-        <input type="submit" value="Proceed To Pay" />
-    </li>
-</ul>
-</form>
-{%else%}
-<br><br>
-<h1 style="text-align:center; color:red;"> First Add Product In Cart </h1>
-<br><br><br><br><br><br><br><br><br><br>
-{%endif%}
+			<li>
+				<label>Shipment Address <span class="required">*</span></label>
+				{% render_field addressForm.Address class="field-long field-textarea" placeholder="Enter your full address" %}
+
+				<!-- {% render_field addressForm.address id="field5" class="field-long field-textarea" placeholder="Building number,
+				street, city, pin code" %} -->
+			</li>
+
+			<li>
+				<input type="submit" value="Proceed To Pay" />
+			</li>
+		</ul>
+	</form>
+</div>
+{% else %}
+<h1 class="empty-cart">First Add Product In Cart</h1>
+{% endif %}
 
 {% endblock content %}

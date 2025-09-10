@@ -518,9 +518,9 @@ def download_invoice(request, order_id):
         elements.append(logo)
 
     elements.append(Spacer(1, 10))
-    elements.append(Paragraph("Amazon E-Commerce Pvt. Ltd.", title_style))
+    elements.append(Paragraph("QUICK CROSS E-Commerce Pvt. Ltd.", title_style))
     elements.append(Paragraph("Meerpet, Hyderabad, Telangana, India", normal_style))
-    elements.append(Paragraph("Email: support@amazon.in | Phone: +91-9876543210", normal_style))
+    elements.append(Paragraph("Email: kmarsalan124@gmail.com | Phone: +91-9515855961", normal_style))
     elements.append(Spacer(1, 15))
 
     # Invoice Title
@@ -575,7 +575,7 @@ def download_invoice(request, order_id):
     # Footer
     footer = Paragraph(
         "<b>Thank you for shopping with us!</b><br/>"
-        "For support, visit <a href='https://amazon.in'>amazon.in</a>",
+        "For support, click <a href='https://arsalan-portfolio.onrender.com/'>here for my portfolio</a>",
         normal_style
     )
     elements.append(footer)
